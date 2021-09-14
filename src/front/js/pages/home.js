@@ -19,10 +19,13 @@ export const Home = () => {
 				<a href="https://github.com/4GeeksAcademy/react-flask-hello/tree/95e0540bd1422249c3004f149825285118594325/docs">
 					Read documentation
 				</a>
-				<Link className="btn btn-light" to="/login">
-					Login
-				</Link>
 			</p>
+			<Link className="btn btn-primary m-1" to="/login">
+				Login
+			</Link>
+			<Link className="btn btn-primary m-1" to="/signup">
+				Sign Up
+			</Link>
 		</div>
 	);
 };
