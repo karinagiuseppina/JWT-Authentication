@@ -20,12 +20,6 @@ export const Home = () => {
 					Read documentation
 				</a>
 			</p>
-			<Link className="btn btn-primary m-1" to="/login">
-				Login
-			</Link>
-			<Link className="btn btn-primary m-1" to="/signup">
-				Sign Up
-			</Link>
 		</div>
 	);
 };

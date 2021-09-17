@@ -1,41 +1,46 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.scss";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
-export const Home = () => {
+export const Special = () => {
 	const { store, actions } = useContext(Context);
+	let history = useHistory();
+	const [data, setData] = useState(null);
 
-    const getMyTasks = async () => {
-        // retrieve token form localStorage
-        const token = localStorage.getItem('jwt-token');
-        const resp = await fetch(`https://3001-aquamarine-toad-pzc1dric.ws-eu16.gitpod.io/api/protected`, {
-           method: 'GET',
-           headers: { 
-             "Content-Type": "application/json",
-             'Authorization': 'Bearer '+token
-            } 
-        });
+	const showMessage = async () => {
+		// retrieve token form localStorage
+		const token = localStorage.getItem("jwt-token");
+		const resp = await fetch(`https://3001-fuchsia-kangaroo-uedhf8cu.ws-eu16.gitpod.io/api/protected`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: "Bearer " + token
+			}
+		});
 
-        if(!resp.ok) {
-            throw Error("There was a problem in the login request");
-        }
-        const data = await resp.json();
-        console.log("This is the data you requested", data);
-        return data
-    
-    }
+		if (!resp.ok) {
+			throw Error("There was a problem loading the information...");
+		}
+		const data = await resp.json();
+		setData(data);
+	};
 
-
+	useEffect(() => {
+		if (store.user_token === null) history.push("/login");
+		else showMessage();
+	}, []);
 
 	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!</h1>
-			
-				<button className="btn btn-light" onClick={getMyTasks}>
-					get Message
-				</button>
+		<div className="container">
+			<div className="row">
+				<div className="col">
+					<h1>Hello Rigo!</h1>
+
+					<div className="alert alert-dark text-center">{data ? data.email : "loading..."}</div>
+				</div>
+			</div>
 		</div>
 	);
 };

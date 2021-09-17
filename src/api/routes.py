@@ -36,6 +36,7 @@ def create_user():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
     is_active = request.json.get("is_active", None)
+    print(email, password, is_active)
     # Query your database for username and password
     if email is None or password is None or is_active is None:
         return jsonify({"msg": "Bad username or password"}), 401
@@ -47,12 +48,20 @@ def create_user():
 
     return jsonify([]), 200
 
+@api.route("/users", methods=["GET"])
+def get_users():
+    users = User.query.all()
+    users = list(map (lambda user: user.serialize(), users))
+    
+    return jsonify(users), 200
+
+
 
 @api.route("/protected", methods=["GET"])
 @jwt_required()
 def protected():
     # Access the identity of the current user with get_jwt_identity
     current_user_id = get_jwt_identity()
-    user = User.filter.get(current_user_id)
+    user = User.query.filter_by(id=current_user_id).first()
     
-    return jsonify({"id": user.id, "username": user.username }), 200
+    return jsonify({"id": user.id, "email": user.email }), 200
