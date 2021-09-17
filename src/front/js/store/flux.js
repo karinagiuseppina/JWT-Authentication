@@ -44,7 +44,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ demo: demo });
 			},
 			setUser_token: token => {
-				const store = getStore();
 				setStore({ user_token: token });
 			}
 		}

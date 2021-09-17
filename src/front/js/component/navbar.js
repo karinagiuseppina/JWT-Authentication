@@ -10,13 +10,13 @@ export const Navbar = () => {
 	const handleLogout = () => {
 		localStorage.setItem("jwt-token", null);
 		actions.setUser_token(null);
-		history.push("/");
 		setIsLogged(false);
+		history.push("/");
 	};
 	useEffect(() => {
 		if (store.user_token === null) setIsLogged(false);
 		else setIsLogged(true);
-	}, []);
+	});
 
 	const logIn = (
 		<div className="ml-auto">
@@ -42,8 +42,7 @@ export const Navbar = () => {
 			<Link to="/">
 				<span className="navbar-brand mb-0 h1">React Boilerplate</span>
 			</Link>
-			{logIn}
-			{logOut}
+			{isLogged ? logOut : logIn}
 		</nav>
 	);
 };
